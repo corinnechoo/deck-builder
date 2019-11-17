@@ -7,7 +7,7 @@ class Card(models.Model):
     cards are the same, since there are no null values for the 
     column 'name'
     """
-    dbfId = models.CharField(max_length=200, primary_key=True)
+    dbfid = models.CharField(max_length=200, primary_key=True)
     name = models.CharField(max_length=200)
-    playerClass = models.CharField(max_length=200)
+    playerclass = models.CharField(max_length=200)
     

@@ -22,15 +22,15 @@ def index(request):
         with cte as (
             SELECT *, ROW_NUMBER() OVER (PARTITION BY name) 
             AS rn FROM deck_card)
-            SELECT dbfId, name, playerClass FROM cte 
+            SELECT dbfid, name, playerclass FROM cte 
             WHERE rn<=2 
-            AND (playerClass='Neutral' OR playerClass=%s) 
+            AND (playerclass='Neutral' OR playerclass=%s) 
             LIMIT 30;
         """, (playerClass,)))
 
-        output = json.dumps([{'dbfId': c.dbfId,
+        output = json.dumps([{'dbfId': c.dbfid,
                               'name': c.name,
-                              'playerClass': c.playerClass} for c in cards])
+                              'playerClass': c.playerclass} for c in cards])
 
         return HttpResponse(output)
     return HttpResponse(status=400)

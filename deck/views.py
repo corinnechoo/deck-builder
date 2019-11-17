@@ -15,7 +15,7 @@ def index(request):
         validation = InputSerializer(data=request_body)
 
         if not validation.is_valid():
-            return JsonResponse(validation.errors, status=400)
+            return HttpResponse(json.dumps(validation.errors), status=400)
 
         playerClass = request_body.get('playerClass')
         cards = list(Card.objects.raw("""

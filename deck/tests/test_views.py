@@ -7,6 +7,7 @@ from ..views import index
 
 @ddt
 class SimpleTest(TestCase):
+
     def setUp(self):
         self.factory = RequestFactory()
     
@@ -16,7 +17,9 @@ class SimpleTest(TestCase):
         }
 
     @data('', 123, 'Magician')
-    def test_details_invalid_string(self, value):
+    def test_details_invalid_input(self, value):
         p = self.format_input(value)
         response = self.client.post("", p, content_type='application/json')
         self.assertEqual(response.status_code, 400)
+
+

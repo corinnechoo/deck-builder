@@ -20,12 +20,12 @@ def index(request):
         playerClass = request_body.get('playerClass')
         cards = list(Card.objects.raw("""
         with cte as (
-            SELECT *, ROW_NUMBER() OVER (PARTITION BY name) 
-            AS rn FROM deck_card)
-            SELECT dbfid, name, playerclass FROM cte 
-            WHERE rn<=2 
-            AND (playerclass='Neutral' OR playerclass=%s) 
-            LIMIT 30;
+        SELECT *, ROW_NUMBER() OVER (PARTITION BY name ORDER BY RANDOM()) 
+        AS rn FROM deck_card)
+        SELECT dbfid, name, playerclass FROM cte 
+        WHERE rn<=2 
+        AND (playerclass='Neutral' OR playerclass=%s) 
+        ORDER BY RANDOM() LIMIT 30;
         """, (playerClass,)))
 
         output = json.dumps([{'dbfId': c.dbfid,

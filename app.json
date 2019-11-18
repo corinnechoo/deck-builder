@@ -1,8 +1,8 @@
 {
-  "name": "Start on Heroku: Python",
-  "description": "A barebones Python app, which can easily be deployed to Heroku.",
+  "name": "Deck Builder",
+  "description": "This app generates 30 random Hearthstone cards.",
   "image": "heroku/python",
-  "repository": "https://github.com/heroku/python-getting-started",
+  "repository": "https://github.com/corinnechoo/deck-builder",
   "keywords": ["python", "django" ],
   "addons": [ "heroku-postgresql" ],
   "env": {

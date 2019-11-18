@@ -1,11 +1,11 @@
-from django.urls import path, include
+import deck.views
+from django.urls import path
 
 from django.contrib import admin
 
 admin.autodiscover()
 
-import deck.views
 
 urlpatterns = [
-    path("", deck.views.index, name="index"),
+    path("cards/", deck.views.index, name="index"),
 ]

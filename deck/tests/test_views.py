@@ -1,39 +1,48 @@
-from django.contrib.auth.models import AnonymousUser, User
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from ddt import ddt, data
 
-from ..views import index
 import json
 
 
 @ddt
 class SimpleTest(TestCase):
+    """
+    Tests that the /cards/ endpoint returns the correct response
+    """
 
+    # loads test data into the database
     fixtures = ['test_data.json']
 
-    def setUp(self):
-        self.factory = RequestFactory()
-
     def format_input(self, playerClass):
+        """
+        Formats the request body for the post request used by all test methods
+        """
         return {
             "playerClass": playerClass
         }
 
-    @data('', 123, 'Magician')
+    @data('', 123, 'Magician', None)
     def test_details_invalid_input(self, value):
+        """
+        Tests invalid inputs for the /cards/ endpoint (empty string, integer,
+        invalid playerClass, empty value)
+        """
         p = self.format_input(value)
-        response = self.client.post("", p, content_type='application/json')
+        response = self.client.post(
+            "/cards/", p, content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
     @data('Druid', 'Mage')
-    # there are 27 neutral cards, 1 mage, 4 druid
     def test_details_success(self, value):
-        """  
+        """
+        Tests that the endpoint returns at most 30 cards, with fewer than
+        2 cards having the same name given the test data containing the
+        following playerClass: 27 Neutral, 1 Mage, 4 Druid
 
-        
         """
         p = self.format_input(value)
-        response = self.client.post("", p, content_type='application/json')
+        response = self.client.post(
+            "/cards/", p, content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         response_json = json.loads(response.content)

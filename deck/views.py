@@ -1,6 +1,5 @@
 import json
 
-from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 
@@ -10,6 +9,16 @@ from .serializers import InputSerializer
 
 @api_view(['POST'])
 def index(request):
+    """
+    Responds to the browser url /cards/
+
+
+    Returns
+    -------
+    dict
+        list of dict containing the card dbfId, name and playerClass
+
+    """
     if request.method == 'POST':
         request_body = request.data
         validation = InputSerializer(data=request_body)
@@ -19,13 +28,18 @@ def index(request):
 
         playerClass = request_body.get('playerClass')
         cards = list(Card.objects.raw("""
-        with cte as (
-        SELECT *, ROW_NUMBER() OVER (PARTITION BY name ORDER BY RANDOM()) 
-        AS rn FROM deck_card)
-        SELECT dbfid, name, playerclass FROM cte 
-        WHERE rn<=2 
-        AND (playerclass='Neutral' OR playerclass=%s) 
-        ORDER BY RANDOM() LIMIT 30;
+            with cte as (
+                SELECT *, ROW_NUMBER()
+                OVER (
+                    PARTITION BY name
+                    ORDER BY RANDOM())
+                AS rn FROM deck_card
+            )
+            SELECT dbfid, name, playerclass FROM cte
+            WHERE rn <= 2 
+            AND (playerclass='Neutral' OR playerclass=%s)
+            ORDER BY RANDOM()
+            LIMIT 30;
         """, (playerClass,)))
 
         output = json.dumps([{'dbfId': c.dbfid,

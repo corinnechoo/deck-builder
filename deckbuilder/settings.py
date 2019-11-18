@@ -46,7 +46,7 @@ ROOT_URLCONF = "deckbuilder.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -67,7 +67,7 @@ WSGI_APPLICATION = "deckbuilder.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE" : "django.db.backends.sqlite3",
+        "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3")
     }
 }
@@ -109,3 +109,4 @@ django_heroku.settings(locals())
 
 
 HEARTHSTONE_KEY = os.environ.get("HEARTHSTONE_KEY")
+LOGIN_REDIRECT_URL = '/cards/'

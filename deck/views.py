@@ -5,8 +5,10 @@ from rest_framework.decorators import api_view
 
 from .models import Card
 from .serializers import InputSerializer
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 @api_view(['POST'])
 def index(request):
     """

@@ -8,6 +8,23 @@ The database populated with all fields given in the raw dataset, though in the f
 
 The X-Mashape-Key required for retrieving the raw data is stored in a .env file as HEARTHSTONE_KEY.
 
+The API request requires authentication.
+## To create user:
+```
+python manage.py createsuperuser
+```
+
+## Request
+```
+POST https://damp-lowlands-95607.herokuapp.com/cards/
+
+Accept: application/json
+Content-Type: application/json
+
+{
+    "playerClass": "Warrior"
+}
+```
 
 ## Running Tests Locally
 ```

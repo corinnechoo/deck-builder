@@ -1,5 +1,6 @@
 from django.test import TestCase
 from ddt import ddt, data
+from django.contrib.auth.models import User
 
 import json
 
@@ -12,6 +13,20 @@ class SimpleTest(TestCase):
 
     # loads test data into the database
     fixtures = ['test_data.json']
+
+    def setUp(self):
+        """
+        Logs in with a user
+        """
+        User.objects.create_superuser(
+            'user1',
+            'user1@example.com',
+            'pswd',
+        )
+        self.client.login(username="user1", password="pswd")
+
+    def tearDown(self):
+        self.client.logout()
 
     def format_input(self, playerClass):
         """

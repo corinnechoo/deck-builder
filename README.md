@@ -9,9 +9,11 @@ The database populated with all fields given in the raw dataset, though in the f
 The X-Mashape-Key required for retrieving the raw data is stored in a .env file as HEARTHSTONE_KEY.
 
 The API request requires authentication.
+
 ## To create user:
 ```
-python manage.py createsuperuser
+python manage.py createsuperuser # local
+heroku run python manage.py createsuperuser # heroku
 ```
 
 ## Request
@@ -25,7 +27,22 @@ Content-Type: application/json
     "playerClass": "Warrior"
 }
 ```
-
+### Returns a list of cards
+e.g. 
+```
+[
+    {
+        "dbf_id":"50371",
+        "name": "Absolutely Mad!"
+        "player_class":"Priest"
+    },
+    {
+        "dbf_id":"“50378",
+        "name": "Avenger"
+        "player_class":"Neutral"
+    }
+]
+```
 ## Running Tests Locally
 ```
 $ DJANGO_SETTINGS_MODULE="deck.settings_test" python manage.py test deck 
